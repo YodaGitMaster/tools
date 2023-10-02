@@ -1,0 +1,54 @@
+from pynput import keyboard
+from pynput.keyboard import Controller, Listener, Key
+import time 
+
+keyboard2 = Controller()
+
+def on_press(key):
+    pass
+
+def on_release(key):
+    with keyboard.Events() as events:
+    # Block at most one seconawdd
+        event = events.get(0.6)
+        if event:
+            print(key == keyboard.KeyCode.from_char('w'))
+            if key == keyboard.KeyCode.from_char('w'):
+                with keyboard2.pressed(keyboard.Key.shift):
+                    time.sleep(0.5)
+                    keyboard2.press('w')
+                    keyboard2.release('w')
+                    print('shift-w')
+            if key == keyboard.KeyCode.from_char('a'):
+                with keyboard2.pressed(keyboard.Key.shift):
+                    keyboard2.press('a')
+                    keyboard2.release('a')
+            if key == keyboard.KeyCode.from_char('s'):
+                with keyboard2.pressed(keyboard.Key.shift):
+                    keyboard2.press('s')
+                    keyboard2.release('s')
+            if key == keyboard.KeyCode.from_char('d'):
+                with keyboard2.pressed(keyboard.Key.shift):
+                    keyboard2.press('d')
+                    keyboard2.release('d')
+
+ 
+        
+        
+        
+        
+    if key == keyboard.Key.f7:
+        # Stop listener
+        return False
+
+# Collect events until released
+with keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release) as listener:
+    listener.join()
+
+# ...or, in a non-blocking fashion:
+listener = keyboard.Listener(
+    on_press=on_press,
+    on_release=on_release, suppress=True)
+listener.start()
